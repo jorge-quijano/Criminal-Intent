@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,7 +38,8 @@ public class CrimeListFragment extends Fragment {
         mAdapter = new CrimeAdapter(crimes);
         mCrimeRecyclerView.setAdapter(mAdapter);
     }
-    private class  CrimeHolder extends RecyclerView.ViewHolder{
+    private class  CrimeHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
         private  Crime mCrime;
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -45,6 +47,7 @@ public class CrimeListFragment extends Fragment {
 
         public CrimeHolder(View itemView){
             super(itemView);
+            itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView) itemView
                     .findViewById(R.id.list_item_crime_title_text_view);
@@ -52,12 +55,18 @@ public class CrimeListFragment extends Fragment {
                     .findViewById(R.id.list_item_crime_date_text_view);
             mSolvedCheckBox=(CheckBox) itemView
                     .findViewById(R.id.list_item_crime_solved_check_box);
-        }
+            }
         public void bindCrime(Crime crime) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getmTitle());
             mDateTextView.setText(mCrime.getmDate().toString());
             mSolvedCheckBox.setChecked(mCrime.ismSolved());
+        }
+        @Override
+        public void onClick(View view){
+            Toast.makeText(getActivity(),
+                    "se hizo clic sobre"+ mCrime.getmTitle(),
+                    Toast.LENGTH_SHORT).show();
         }
     }
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder>{
